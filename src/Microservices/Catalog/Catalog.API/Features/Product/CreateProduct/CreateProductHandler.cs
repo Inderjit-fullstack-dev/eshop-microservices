@@ -1,8 +1,11 @@
 ﻿using Catalog.API.Models;
+using Marten;
 namespace Catalog.API.Features.ProductFeature.CreateProduct
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
+    public class CreateProductHandler(IDocumentSession session) : IRequestHandler<CreateProductCommand, Product>
     {
+        private readonly IDocumentSession _session = session;
+
         public async Task<Product> Handle(CreateProductCommand request, 
             CancellationToken cancellationToken)
         {
@@ -15,6 +18,9 @@ namespace Catalog.API.Features.ProductFeature.CreateProduct
                 Categories = request.Categories,
                 Price = request.Price
             };
+
+            _session.Store(product);
+            await _session.SaveChangesAsync(cancellationToken);
 
             return product;
         }
