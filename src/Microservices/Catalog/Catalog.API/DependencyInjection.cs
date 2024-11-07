@@ -11,10 +11,12 @@ namespace Catalog.API
 
             // registering marten
 
+
             services.AddMarten(options =>
             {
                 options.Connection(configuration.GetConnectionString("Default"));
             }).UseLightweightSessions();
+
             return services;
         }
     }

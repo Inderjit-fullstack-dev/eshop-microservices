@@ -21,7 +21,6 @@ namespace Catalog.API.Features.ProductFeature.CreateProduct
 
             _session.Store(product);
             await _session.SaveChangesAsync(cancellationToken);
-
             return product;
         }
     }
