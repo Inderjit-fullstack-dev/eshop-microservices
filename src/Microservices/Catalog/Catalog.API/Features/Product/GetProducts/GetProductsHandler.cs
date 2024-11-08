@@ -12,7 +12,7 @@ namespace Catalog.API.Features.ProductFeature.GetProducts
         public async Task<IReadOnlyList<Product>> Handle(GetProductsQuery request, 
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("GetProductsHandler called with ");
+            _logger.LogInformation($"GetProductsHandler called with {request}");
             return await _session.Query<Product>().ToListAsync(cancellationToken);
         }
     }
