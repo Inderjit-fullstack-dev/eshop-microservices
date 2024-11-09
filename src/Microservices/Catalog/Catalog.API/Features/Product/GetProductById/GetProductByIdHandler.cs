@@ -1,4 +1,5 @@
-﻿using Catalog.API.Models;
+﻿using Catalog.API.Exceptions;
+using Catalog.API.Models;
 using Marten;
 
 namespace Catalog.API.Features.ProductFeature.GetProductById
@@ -12,7 +13,10 @@ namespace Catalog.API.Features.ProductFeature.GetProductById
         public async Task<Product> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"GetByIdProductHandler called with {request}");
-            return await _session.LoadAsync<Product>(request.Id, cancellationToken);
+
+            var product = await _session.LoadAsync<Product>(request.Id, cancellationToken) ?? throw new ProductNotFoundException();
+
+            return product;
         }
     }
 }
